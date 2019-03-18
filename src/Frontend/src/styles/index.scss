@@ -1,0 +1,30 @@
+@import "./variables";
+@import "./colors";
+@import "./fonts";
+@import "./spacings";
+@import "./typography";
+@import "./icofont";
+
+@import "./components/buttons";
+@import "./components/form";
+@import "./components/links";
+@import "./components/lists";
+@import "./components/navigation";
+@import "./components/table";
+@import "./components/validation-summary";
+@import "./components/webcheck-result";
+
+@import "./pages/check-detail";
+
+body {
+  color: $grey-1;
+  background-color: $grey-10;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: $font-regular;
+}
+
+.container {
+  margin: 5rem auto 2.5rem;
+}

@@ -1,0 +1,63 @@
+@page
+@model Index
+
+<div class="row">
+    <div class="col">
+        <h1>Registered web checks</h1>
+    </div>
+    <div class="col text-right">
+        <a class="btn primary" asp-page="Detail">
+            add new
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="table web-checks">
+            <div class="th header">Name</div>
+            <div class="th header">Url</div>
+            <div class="th header">Labels</div>
+            <div class="th header">Duration</div>
+            <div class="th header">Result</div>
+            <div class="th header"></div>
+            @foreach (var (check, result) in Model.WebChecks)
+            {
+                <div class="header">
+                    <a asp-page="Detail" asp-route-id="@check.Id">@check.Name</a>
+                </div>
+                <div>@check.Method.ToString(): @check.Url</div>
+                <div>
+                    <ul class="label-list">
+                        @foreach (var label in check.Labels)
+                        {
+                            <li><span>@label.Name:</span> @label.Value</li>
+                        }
+                    </ul>
+                </div>
+                <div>
+                    @($"{result?.Duration ?? -1}ms")
+                </div>
+                <div>
+                    @if (result == null)
+                    {
+                        <span class="icofont-question"></span>
+                    }
+                    else if (result.Result)
+                    {
+                        <span class="icofont-check-alt"></span>
+                    }
+                    else
+                    {
+                        <span class="icofont-close-line"></span>
+                    }
+                </div>
+                <div>
+                    <a asp-page-handler="DeleteWebCheck" asp-route-id="@check.Id">
+                        delete
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

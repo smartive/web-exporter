@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "jsx": "react",
+    "rootDir": "../src",
+    "declaration": false,
+    "sourceMap": false,
+    "importHelpers": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["es2018", "dom"]
+  },
+  "include": ["../src/**/*.ts"],
+  "exclude": []
+}

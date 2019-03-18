@@ -1,0 +1,30 @@
+.table {
+  width: 100%;
+  display: grid;
+  margin: 1rem 0 2rem;
+  border: 2px solid $blue;
+  border-radius: $border-radius;
+
+  .header {
+    font-weight: $font-medium;
+  }
+
+  .th.header {
+    font-weight: $font-regular;
+    padding: .5rem;
+    margin-bottom: .5rem;
+    border-bottom: 1px solid $blue-lighter;
+    background-color: $grey-9;
+    color: $blue;
+  }
+
+  > div:not(.th) {
+    padding: .5rem;
+    word-break: break-all;
+    margin-bottom: .5rem;
+  }
+
+  &.web-checks {
+    grid-template-columns: repeat(6, auto);
+  }
+}

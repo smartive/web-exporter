@@ -1,0 +1,22 @@
+include:
+  - 'https://gitlab.com/smartive/open-source/gitlab-ci-templates/raw/master/templates.yml'
+
+stages:
+  - build
+  - deploy
+
+build:
+  extends: .gcb-docker
+  stage: build
+  variables:
+    SUB_REGISTRY: $REGISTRY
+    SUB_CI_PROJECT_NAMESPACE: $CI_PROJECT_NAMESPACE
+    SUB_CI_PROJECT_NAME: $CI_PROJECT_NAME
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  extends: .k8s-deploy
+  only:
+    - master

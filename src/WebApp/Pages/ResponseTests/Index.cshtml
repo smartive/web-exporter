@@ -1,0 +1,168 @@
+@page "/detail/{checkId:int}/test/{id:int?}"
+@using System.Web
+@using Microsoft.EntityFrameworkCore.Internal
+@using Newtonsoft.Json
+@model Index
+
+<div class="row">
+    <div class="col">
+        <a asp-page="../Detail" asp-route-id="@Model.ResponseTest.WebCheckId">back</a>
+    </div>
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div class="row m-t-2">
+        <div class="col">
+            @Html.ValidationSummary("There were some errors")
+        </div>
+    </div>
+}
+
+<form method="post">
+    <input type="hidden" asp-for="ResponseTest.Id" />
+    <input type="hidden" asp-for="ResponseTest.WebCheckId" />
+
+    <div class="row section m-t-2">
+        <div class="col-4">
+            <h3>Details</h3>
+            <p class="info">
+                General information about the reponse test.
+                The name is required and will be used to identify the test in
+                logs and other elements.
+            </p>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="ResponseTest.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ResponseTest.Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row section">
+        <div class="col-4">
+            <h3>Test code</h3>
+            <p class="info">
+                The JavaScript code that is executed for the response.
+            </p>
+        </div>
+        <div class="col-8">
+            <input type="hidden" asp-for="TestScript" />
+            <div id="monaco-editor" style="min-height: 700px"></div>
+        </div>
+    </div>
+
+    <div class="row m-t-2">
+        <div class="col">
+            <button type="submit" asp-page-handler="ExecuteTest" class="btn secondary">execute</button>
+        </div>
+        <div class="col text-right">
+            <a asp-page="../Detail" asp-route-id="@Model.ResponseTest.WebCheckId" class="btn secondary">cancel</a>
+            <button type="submit" asp-page-handler="" class="btn primary m-l-1">save</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.ExecutedTestResult.result != null)
+{
+    <div class="row m-t-4">
+        <div class="col webcheck-details">
+            <div>
+                <div class="reason">
+                    <h6>Reason</h6>
+                    <pre><code>@(Model.ExecutedTestResult.result.Reasons?.Join("\n") ?? "Everything is fine.")</code></pre>
+                </div>
+                <div class="logs">
+                    <h6>@Model.ResponseTest.Name</h6>
+                    <pre><code>@Model.ExecutedTestResult.result.TestLogMessages.FirstOrDefault(t => t.Name == Model.ResponseTest.Name).Messages?.Join("\n")</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-2">
+        <div class="col response-test-reqres">
+            <div class="row">
+                <div class="col-6 left">
+                    <h6>Request</h6>
+                    <pre><code>@JsonConvert.SerializeObject(Model.ExecutedTestResult.request, Formatting.Indented)</code></pre>
+                </div>
+                <div class="col-6">
+                    <h6>Response</h6>
+                    <pre><code>@JsonConvert.SerializeObject(Model.ExecutedTestResult.response, Formatting.Indented)</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script asp-append-version="true" async defer onload="initialize();" src="~/js/monaco.js"></script>
+    <script type="text/javascript">
+        function debounce(func, wait, immediate = false) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+
+                const later = function() {
+                    timeout = null;
+                    if (!immediate) {
+                        func.apply(context, args);
+                    }
+                };
+
+                const callNow = immediate && !timeout;
+
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+
+                if (callNow) {
+                    func.apply(context, args);
+                };
+            };
+        };
+
+        function initialize() {
+            if (!monaco) {
+                return;
+            }
+
+            const model = monaco.editor.createModel(
+                '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.TestScript))',
+                'typescript',
+                monaco.Uri.from({
+                    scheme: 'file',
+                    path: 'index.js'
+                })
+            );
+            monaco.editor.create(
+                document.getElementById('monaco-editor'),
+                {
+                    model,
+                    language: 'javascript',
+                    theme: 'vs-dark',
+                    scrollBeyondLastLine: false
+                }
+            );
+
+            const field = document.getElementById(`@Html.IdFor(index => index.TestScript)`);
+
+            model.onDidChangeContent(debounce(
+                () => {
+                    if (!field) {
+                        return;
+                    }
+
+                    field.value = model.getValue();
+                },
+                500
+            ));
+        }
+    </script>
+}

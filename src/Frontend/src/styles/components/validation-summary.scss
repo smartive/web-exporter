@@ -1,0 +1,19 @@
+.validation-summary-errors{
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: $grey-9;
+  border-bottom: 2px solid $blue;
+
+  > span {
+    font-weight: $font-medium;
+    color: $grey-4;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 1rem;
+    margin: 0;
+    margin-top: .5rem;
+    color: $blue-dark;
+  }
+}

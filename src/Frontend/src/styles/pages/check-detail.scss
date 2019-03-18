@@ -1,0 +1,23 @@
+.test-list {
+  li {
+    padding-bottom: .5rem;
+    border-bottom: 1px solid $blue-lighter;
+    margin-bottom: .5rem;
+  }
+
+  .test-name a {
+    color: $blue;
+  }
+}
+
+.test-result {
+  margin-left: 1rem;
+  font-size: .9rem;
+  font-weight: $font-light;
+
+  span {
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+    color: $blue;
+  }
+}

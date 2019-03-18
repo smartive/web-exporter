@@ -1,0 +1,15 @@
+
+a, a:hover{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:not(.btn) {
+  color: $blue-lighter;
+
+  &:hover {
+    color: $blue;
+    padding-bottom: .1rem;
+    border-bottom: 1px solid $blue;
+  }
+}
