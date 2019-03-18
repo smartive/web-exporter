@@ -1,0 +1,6 @@
+{
+  "repositoryUrl": "https://github.com/smartive/web-exporter.git",
+  "verifyConditions": "@semantic-release/github",
+  "prepare": false,
+  "publish": "@semantic-release/github"
+}

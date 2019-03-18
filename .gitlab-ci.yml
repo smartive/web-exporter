@@ -1,22 +1,48 @@
 include:
-  - 'https://gitlab.com/smartive/open-source/gitlab-ci-templates/raw/master/templates.yml'
+  - "https://gitlab.com/smartive/open-source/gitlab-ci-templates/raw/master/templates.yml"
 
 stages:
-  - build
-  - deploy
+  - test
+  - release
 
-build:
-  extends: .gcb-docker
-  stage: build
+.public-docker:
+  extends: .base
+  image: docker:latest
   variables:
-    SUB_REGISTRY: $REGISTRY
-    SUB_CI_PROJECT_NAMESPACE: $CI_PROJECT_NAMESPACE
-    SUB_CI_PROJECT_NAME: $CI_PROJECT_NAME
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://localhost:2375
+    DOCKER_FILE: ./Dockerfile
+    DOCKER_TAG: ""
+    DOCKER_CONTEXT: "."
+    DOCKER_BUILDKIT: "1"
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
+  script:
+    - docker build --file $DOCKER_FILE -t $DOCKER_TAG $DOCKER_CONTEXT
+  after_script:
+    - docker push $DOCKER_TAG
+
+test:
+  extends: .public-docker
+  stage: test
+  script:
+    - docker build --file $DOCKER_FILE --target build $DOCKER_CONTEXT
+  except:
+    - master
+    - tags
+
+release:
+  extends: .create-release
+  stage: release
   only:
     - master
 
 deploy:
-  stage: deploy
-  extends: .k8s-deploy
+  extends: .public-docker
+  stage: release
+  variables:
+    DOCKER_TAG: "smartive/web-exporter:$CI_COMMIT_TAG"
   only:
-    - master
+    - tags
