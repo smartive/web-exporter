@@ -6,11 +6,11 @@ ProjectSection(SolutionItems) = preProject
 	build.sh = build.sh
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{E431D29E-8095-48A0-90A9-A3E04E00A326}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "src\WebApp\WebApp.csproj", "{E431D29E-8095-48A0-90A9-A3E04E00A326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{85495373-8DBB-45B8-B76F-F28E2ED37190}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "src\DAL\DAL.csproj", "{85495373-8DBB-45B8-B76F-F28E2ED37190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{5AFB83C1-EFF1-498C-9E93-9E7C7FCCB930}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "src\DataAccess\DataAccess.csproj", "{5AFB83C1-EFF1-498C-9E93-9E7C7FCCB930}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{30F400A6-5F07-42C6-B679-14D41A58FBD1}"
 ProjectSection(SolutionItems) = preProject

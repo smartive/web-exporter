@@ -11,7 +11,7 @@
       <PackageReference PrivateAssets="All" Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
       <PackageReference PrivateAssets="All" Include="StyleCop.Analyzers" Version="1.0.2" />
-      <AdditionalFiles Include="../stylecop.json" />
+      <AdditionalFiles Include="../../stylecop.json" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <CodeAnalysisRuleSet>../project.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>../../project.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
