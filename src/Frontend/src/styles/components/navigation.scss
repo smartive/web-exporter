@@ -1,0 +1,30 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  background-color: $blue;
+  box-shadow: 0 -10px 12px 10px $blue-dark;
+
+  .logo {
+    height: 2rem;
+    width: 2rem;
+    background-image: url('../../assets/smartive_avatar.png');
+    background-size: 2rem;
+    margin: 0 2rem;
+  }
+
+  a {
+    color: $grey-10;
+
+    &:hover {
+      padding-bottom: 0;
+      color: $grey-10;
+    }
+  }
+}

@@ -1,0 +1,196 @@
+@page "{id:int?}"
+@using DAL.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@model Detail
+
+<div class="row">
+    <div class="col">
+        <a asp-page="Index">back</a>
+    </div>
+</div>
+
+<div class="row m-t-2">
+    <div class="col">
+        <h2>
+            @(Model.IsNew ? "Create new web-check" : Model.WebCheck.Name)
+        </h2>
+    </div>
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div class="row m-t-2">
+        <div class="col">
+            @Html.ValidationSummary("There were some errors")
+        </div>
+    </div>
+}
+
+<form method="post">
+    <input asp-for="WebCheck.Id" type="hidden" />
+    <div class="row section">
+        <div class="col-4">
+            <h3>Details</h3>
+            <p class="info">
+                General information about the web test that should be executed.
+                The default test that is attached to a web test does check if the return
+                value of the http request contains a status code 200.
+            </p>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="WebCheck.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="WebCheck.Name" />
+                </div>
+            </div>
+            <div class="row m-t-1">
+                <div class="col-4">
+                    <label asp-for="WebCheck.Url"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="WebCheck.Url" />
+                </div>
+            </div>
+            <div class="row m-t-1">
+                <div class="col-4">
+                    <label asp-for="WebCheck.Method"></label>
+                </div>
+                <div class="col-8">
+                    <div class="select">
+                        <select asp-for="WebCheck.Method" asp-items="Html.GetEnumSelectList<HttpMethod>()"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row section">
+        <div class="col-4">
+            <h3>Labels</h3>
+            <p class="info">
+                Labels for the exported metrics. All labels are attached to the
+                executed metrics.
+            </p>
+        </div>
+        <div class="col-8">
+            @Html.React(
+                "Components.WebcheckNameValueForm",
+                new { data = Model.WebCheck.Labels, enumerable = "Labels", webCheckId = Model.WebCheck.Id })
+        </div>
+    </div>
+
+    <div class="row section">
+        <div class="col-4">
+            <h3>Request headers</h3>
+            <p class="info">
+                Headers (HTTP headers) that are attached to the request on sending.
+                Can be used for authentication, version selection or other use cases.
+            </p>
+        </div>
+        <div class="col-8">
+            @Html.React(
+                "Components.WebcheckNameValueForm",
+                new { data = Model.WebCheck.RequestHeaders, enumerable = "RequestHeaders", webCheckId = Model.WebCheck.Id })
+        </div>
+    </div>
+
+    @if (!Model.IsNew)
+    {
+        <div class="row section">
+            <div class="col-4">
+                <h3>Response tests</h3>
+                <p class="info">
+                    (JavaScript) Tests that are executed when the response comes back.
+                    These tests are injected into the javascript engine and will
+                    be given the response and the returned content to execute test.
+                </p>
+            </div>
+            <div class="col-8">
+                <ul class="test-list">
+                    @foreach (var (id, name) in Model.ResponseTests.OrderBy(rt => rt.Name))
+                    {
+                        <li>
+                            <div class="row">
+                                <div class="col test-name">
+                                    <a asp-page="ResponseTests/Index" asp-route-checkId="@Model.WebCheck.Id" asp-route-id="@id">@name</a>
+                                </div>
+                                <div class="col text-right">
+                                    <a asp-page="ResponseTests/Index" asp-route-checkId="@Model.WebCheck.Id" asp-route-id="@id" asp-page-handler="DeleteTest">delete</a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div class="row m-t-1">
+                    <div class="col text-right">
+                        <a class="btn secondary" asp-page="ResponseTests/Index" asp-route-checkId="@Model.WebCheck.Id" asp-route-id="@null">add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row m-t-2">
+        @if (!Model.IsNew)
+        {
+            <div class="col">
+                <a asp-route-id="@Model.WebCheck.Id" asp-page-handler="ExecuteTest" class="btn secondary">execute</a>
+            </div>
+        }
+        <div class="col text-right">
+            <a asp-page="Index" class="btn secondary">cancel</a>
+            <button type="submit" class="btn primary m-l-1">save</button>
+        </div>
+    </div>
+
+</form>
+
+<div class="row m-t-4">
+    <div class="col">
+        @if (Model.Result != null)
+        {
+            <span class="mute">
+                Was last executed on @Model.Result?.Timestamp.ToString("yyyy-MM-dd - HH:mm:ss")
+            </span>
+            <span class="test-result mute">
+                Result:
+                @if (Model.Result.Result)
+                {
+                    <span class="icofont-check-alt"></span>
+                }
+                else
+                {
+                    <span class="icofont-close-line"></span>
+                }
+            </span>
+        }
+        else
+        {
+            <span class="mute">Test was not yet executed.</span>
+        }
+    </div>
+</div>
+
+@if (Model.Result != null)
+{
+    <div class="row m-t-2">
+        <div class="col webcheck-details">
+            <div>
+                <div class="reason">
+                    <h6>Reason</h6>
+                    <pre><code>@(Model.Result.Reasons?.Join("\n") ?? "Everything is fine.")</code></pre>
+                </div>
+                <div class="logs">
+                    @foreach (var (name, messages) in Model.Result.TestLogMessages)
+                    {
+                        <h6>@name</h6>
+                        <pre><code>@messages.Join("\n")</code></pre>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

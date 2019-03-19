@@ -1,0 +1,33 @@
+
+a.btn {
+  display: inline-block;
+}
+
+.btn {
+  padding: .6rem 1.2rem;
+  background-color: $grey-10;
+  border: none;
+  border-radius: $border-radius;
+
+  &.primary {
+    background-color: $blue;
+    border: 1px solid $blue;
+    color: $grey-10;
+
+    &:hover {
+      background-color: $blue-light;
+      $color: $grey-9;
+    }
+  }
+
+  &.secondary {
+    background-color: $grey-10;
+    border: 1px solid $blue;
+    color: $blue;
+
+    &:hover {
+      color: $blue-darker;
+      box-shadow: 0 2px 8px -4px $blue;
+    }
+  }
+}

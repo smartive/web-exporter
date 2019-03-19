@@ -1,0 +1,97 @@
+
+.section {
+  border-top: 1px solid $blue-light;
+  background-color: $grey-9;
+
+  > .col-4, > .col-8 {
+    padding: 1rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: $font-regular;
+    color: $grey-4;
+  }
+
+  .info {
+    font-size: 1rem;
+    font-weight: $font-light;
+    color: $grey-5;
+  }
+
+  > div {
+    padding-top: 1rem;
+  }
+
+  > div:first-child {
+    border-right: 1px solid $blue-light;
+  }
+}
+
+form {
+  label {
+    margin: 0;
+    height: 3rem;
+    line-height: 3rem;
+    font-weight: $font-light;
+    color: $grey-2;
+  }
+
+  input, select {
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+    border-radius: 0;
+    -webkit-appearance: none;
+    background-color: lighten($blue-lighter, 20%);
+    border: none;
+    border-bottom: 2px solid $blue;
+    color: $grey-1;
+
+    &:focus {
+      background-color: lighten($blue-lighter, 10%);
+      outline: none;
+      color: $grey-2;
+    }
+  }
+
+  .select {
+    position: relative;
+
+    &::after {
+      display: block;
+      position: absolute;
+      height: 1.5rem;
+      width: 1.5rem;
+      font-size: 1.5rem;
+      top: .75rem;
+      right: .25rem;
+
+      font-family: 'IcoFont' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      line-height: 1;
+      -webkit-font-feature-settings: "liga";
+      -webkit-font-smoothing: antialiased;
+      content: '\ea67';
+    }
+  }
+
+  select {
+    cursor: pointer;
+    padding-right: 3rem;
+  }
+}
+
+.form-set:not(:first-child) {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid $grey-7;
+}
