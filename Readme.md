@@ -26,3 +26,5 @@ second to prevent malicious code like `while (true) {}` from running to infinity
 The metrics are exposed on the `/metrics` endpoint and can be crapped by prometheus at any time.
 
 // describe deployment?
+
+// Chore: describe config through env vars
