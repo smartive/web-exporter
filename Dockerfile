@@ -3,8 +3,8 @@ FROM node:10 as nodejs
 
 WORKDIR /app
 
-COPY ./Frontend ./frontend
-COPY ./WebApp ./webapp
+COPY ./src/Frontend ./frontend
+COPY ./src/WebApp ./webapp
 
 RUN cd frontend && npm ci && npm run build
 RUN cd webapp && npm ci
@@ -15,7 +15,7 @@ FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /app
 
 COPY . ./
-COPY --from=nodejs /app/frontend/build ./WebApp/wwwroot
+COPY --from=nodejs /app/frontend/build ./src/WebApp/wwwroot
 
 RUN ./build.sh
 
