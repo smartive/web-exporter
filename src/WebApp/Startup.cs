@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using DataAccess.Repositories;
+using DotNetEnv;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -80,8 +81,11 @@ namespace WebApp
 
             services.AddHealthChecks();
 
-            services
-                .AddHostedService<WebCheckHostedService>();
+            if (Env.GetBool("AUTO_EXECUTE_CHECKS", true))
+            {
+                services
+                    .AddHostedService<WebCheckHostedService>();
+            }
         }
 
         /// <summary>
