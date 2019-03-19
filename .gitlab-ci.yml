@@ -27,6 +27,8 @@ stages:
 test:
   extends: .public-docker
   stage: test
+  before_script: []
+  after_script: []
   script:
     - docker build --file $DOCKER_FILE --target build $DOCKER_CONTEXT
   except:
