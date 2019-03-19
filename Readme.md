@@ -24,3 +24,5 @@ The javascript code is run by a node `vm2` instance that has a very strict timeo
 second to prevent malicious code like `while (true) {}` from running to infinity and beyond.
 
 The metrics are exposed on the `/metrics` endpoint and can be crapped by prometheus at any time.
+
+// describe deployment?
