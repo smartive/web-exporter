@@ -4,6 +4,7 @@ include:
 stages:
   - test
   - release
+  - notify
 
 .public-docker:
   extends: .base
@@ -44,5 +45,14 @@ deploy:
   after_script:
     - docker push smartive/web-exporter:$CI_COMMIT_TAG
     - docker push smartive/web-exporter:latest
+  only:
+    - tags
+
+notify repositories:
+  stage: notify
+  image: pstauffer/curl:latest
+  script:
+    - curl -X POST -F token=$WEBHOOK_TOKEN_PREVIEW -F ref=master -F variables[WEB_EXPORTER_TAG]=$CI_COMMIT_TAG https://gitlab.com/api/v4/projects/11388539/trigger/pipeline
+    - curl -X POST -F token=$WEBHOOK_TOKEN_EXPORTERS -F ref=master -F variables[WEB_EXPORTER_TAG]=$CI_COMMIT_TAG https://gitlab.com/api/v4/projects/11317635/trigger/pipeline
   only:
     - tags
