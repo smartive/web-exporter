@@ -1,6 +1,8 @@
 # Web Exporter for prometheus
 
-// badges.
+![Build](https://gitlab.com/smartive/open-source/web-exporter/badges/master/pipeline.svg)
+![Layers](https://img.shields.io/microbadger/layers/layers/smartive/web-exporter.svg)
+![Size](https://img.shields.io/microbadger/image-size/image-size/smartive/web-exporter.svg)
 
 This is a "smart" exporter for prometheus. This exporter should extend / replace the
 basic exporter of prometheus with the goal to perform more specific tests on api
@@ -25,6 +27,12 @@ second to prevent malicious code like `while (true) {}` from running to infinity
 
 The metrics are exposed on the `/metrics` endpoint and can be crapped by prometheus at any time.
 
-// describe deployment?
+## Configuration
 
-// Chore: describe config through env vars
+You can configure this exporter with the following environment variables:
+
+| Variable            | Default value | Description |
+| ------------------- | ------------- | ----------- |
+| PROBE_INTERVAL      | 60            | Timer interval that kicks off execution of the checks |
+| HTTP_TIMEOUT        | `null`        | When set, defines the timeout for http connections, defaults to `PROBE_INTERVAL` |
+| AUTO_EXECUTE_CHECKS | true          | When true, automatic execution of checks is enabled, otherwise tests must be executed manually |
