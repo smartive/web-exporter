@@ -11,18 +11,15 @@
   background-color: $blue;
   box-shadow: 0 -10px 12px 10px $blue-dark;
 
-  .logo {
-    height: 2rem;
-    width: 2rem;
-    background-image: url('../../assets/smartive_avatar.png');
-    background-size: 2rem;
-    margin: 0 2rem;
+  .container {
+    margin: 0 auto;
   }
 
   a {
     color: $grey-10;
 
     &:hover {
+      text-decoration: none;
       padding-bottom: 0;
       color: $grey-10;
     }
