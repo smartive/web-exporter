@@ -1,8 +1,16 @@
 # Web Exporter for prometheus
 
 ![Build](https://gitlab.com/smartive/open-source/web-exporter/badges/master/pipeline.svg)
-![Layers](https://img.shields.io/microbadger/layers/layers/smartive/web-exporter.svg)
-![Size](https://img.shields.io/microbadger/image-size/image-size/smartive/web-exporter.svg)
+![Layers](https://img.shields.io/microbadger/layers/smartive/web-exporter.svg)
+![Size](https://img.shields.io/microbadger/image-size/smartive/web-exporter.svg)
+
+#### Demo
+
+There is an online demo of this tool here: [Web-Exporter Demo](https://demo.web-exporter.smartive.cloud/)
+
+This demo will be reset every four hours.
+
+## Description
 
 This is a "smart" exporter for prometheus. This exporter should extend / replace the
 basic exporter of prometheus with the goal to perform more specific tests on api
